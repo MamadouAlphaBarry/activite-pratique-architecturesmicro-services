@@ -1,16 +1,16 @@
 package enset.sid.customerservice.dtos;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.*;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Setter
 @Getter
-public class CustomerRequestDto {
+@Setter
+
+public class CustomerResponseDto {
+    private  Long id;
     private  String firstName;
     private  String lastName;
     private String email;
