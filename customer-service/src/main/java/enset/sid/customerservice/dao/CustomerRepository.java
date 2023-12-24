@@ -18,4 +18,5 @@ public interface CustomerRepository extends JpaRepository<Customer ,Long> {
 
     List<Customer> findByFirstNameContains(String fn);
     List<Customer>findByFirstNameContainsOrLastNameContains(String fn,String ln);
+
 }

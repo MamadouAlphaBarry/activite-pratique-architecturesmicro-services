@@ -13,5 +13,8 @@ public interface CustomerService {
     CustomerResponseDto findCustomer(Long id) throws CustomerNotException;
     List<CustomerResponseDto> findAllCustomer();
     void deleteCustomer(Long id) throws  CustomerNotException;
-    CustomerRequestDto editCustomer(Long id) throws  CustomerNotException;
+    CustomerRequestDto editCustomer(Long id, CustomerRequestDto customerRequestDto) throws  CustomerNotException;
+    List<CustomerResponseDto> searchFilteredCustomer(String keyword);
+    CustomerResponseDto getCustomerByFirsName(String firstName);
+    List<CustomerResponseDto> getCustomerByFirstNameAndOrLastNameContainfilter(String firstName,String lastname);
 }

@@ -1,17 +1,14 @@
-package enset.sid.customerservice.dtos;
+package enst.sid.accountservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Setter
-@Getter
-@ToString
-public class CustomerRequestDto {
+public class Customer {
+    private Long id;
     private  String firstName;
     private  String lastName;
     private String email;
