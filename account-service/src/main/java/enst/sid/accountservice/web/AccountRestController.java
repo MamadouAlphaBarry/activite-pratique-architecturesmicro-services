@@ -1,5 +1,7 @@
 package enst.sid.accountservice.web;
 
+import enst.sid.accountservice.client.CustomerClientMapper;
+import enst.sid.accountservice.client.CustomerResponseDto;
 import enst.sid.accountservice.client.CustomerRestClient;
 import enst.sid.accountservice.dtos.AccountRequestDto;
 import enst.sid.accountservice.dtos.AccountResponseDto;
@@ -14,10 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import javax.swing.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 public class AccountRestController {
     private AccountService accountService;
     private CustomerRestClient customerRestClient;
+    private CustomerClientMapper customerClientMapper;
     
     @PostMapping("/accounts")
     public ResponseEntity<?> saveAccount(@RequestBody AccountRequestDto accountRequestDto)
@@ -52,15 +53,23 @@ public class AccountRestController {
 
             if (!allAccount.isEmpty()){
                 List<AccountResponseDto> accountResponseDtoList= new ArrayList<>();
+
+
                // allAccount.stream().map(accountResponseDto -> customerRestClient.findCustomerById(accountResponseDto.getCustomerId())).collect(Collectors.toList());
                 for (AccountResponseDto accountResponseDto:allAccount) {
-
-                    HashMap<String,Object> test= (HashMap<String,Object>) customerRestClient.findCustomerById(accountResponseDto.getCustomerId()).getBody();
-                  Customer customer= (Customer) test.get("data");
+                    ResponseEntity<?> customerById = customerRestClient.findCustomerById(accountResponseDto.getCustomerId());
+                    Map<String, Object> body = (Map<String, Object>) customerById.getBody();
+                    CustomerResponseDto o= (CustomerResponseDto) body.get("data");
+                    Customer customer =new Customer();
+                    customer.setLastName(o.getLastName());
                     accountResponseDto.setCustomer(customer);
+                   // map.put("object",o);
+                   // CustomerResponseDto customer= (CustomerResponseDto) body.get("data");
+                   // accountResponseDto.setCustomer(customerClientMapper.fromCustomerToCustomerResponseDto(customer));
                     accountResponseDtoList.add(accountResponseDto);
                 }
                 map.put("status",1);
+
                 map.put("data",accountResponseDtoList);
                 return  new ResponseEntity<>(map,HttpStatus.OK);
             }else {

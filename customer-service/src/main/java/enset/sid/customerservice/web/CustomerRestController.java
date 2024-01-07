@@ -133,4 +133,13 @@ public class CustomerRestController {
 
 
     }
+    @GetMapping("/body/{id}")
+    public CustomerResponseDto getBody(@PathVariable Long id){
+
+        ResponseEntity<?> customerById = getCustomerById(id);
+        //ResponseEntity<?> responseEntity= new ResponseEntity<>(test,HttpStatus.OK);
+        Map<String, Object> body = (Map<String, Object>) customerById.getBody();
+        CustomerResponseDto customer= (CustomerResponseDto) body.get("data");
+        return customer;
+    }
 }
